@@ -22,6 +22,7 @@ Export-ModuleMember `
 	-Function `
         Get-TeamcityBuildAgentDetails,
         Get-TeamcityBuildAgents,
+        Get-TeamcityBuildConfig,
         Get-TeamcityBuildConfigs,
         Get-TeamcityBuildConfigAgentRequirements,
         Get-TeamcityBuildConfigsLinkedToSpecificAgent,
