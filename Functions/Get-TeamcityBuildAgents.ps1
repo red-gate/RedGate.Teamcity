@@ -1,8 +1,18 @@
 function Get-TeamcityBuildAgents
 {
 	[CmdletBinding()]
-    param()
+  param(
+		# Name / wildcard pattern of the agent name
+		[string] $NamePattern
+	)
 
-    ([xml](Invoke-WebRequest "$TeamcityServer/httpAuth/app/rest/agents" -Credential $Credential).Content).agents.agent
+  $allAgents = ([xml](Invoke-WebRequest "$TeamcityServer/httpAuth/app/rest/agents" -Credential $Credential).Content).agents.agent |
+			select id, name
+
+	if( $NamePattern ) {
+		$allAgents | where name -like $NamePattern
+	} else {
+		$allAgents
+	}
 
 }
