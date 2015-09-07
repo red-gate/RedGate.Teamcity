@@ -6,6 +6,13 @@ function Get-TeamcityBuildConfigsLinkedToSpecificAgent
     [string] $Name
 	)
 
+  begin {
+    $ArchivedProjects = @(Get-TeamcityProjects |
+      where archived -eq 'true' |
+      select -ExpandProperty id
+    )
+  }
+
 <#
 The list of requirements type we currently have defined in Teamcity as of Aug 2015.
 does-not-contain, exists, equals, starts-with, contains, does-not-equal, matches, not-exists, any, no-less-than, does-not-match
@@ -15,7 +22,7 @@ does-not-contain, exists, equals, starts-with, contains, does-not-equal, matches
 
     $interestingRequirementTypes = @('equals', 'starts-with', 'contains', 'matches')
 
-    $buildConfigs = Get-TeamcityBuildConfigs | select id, name
+    $buildConfigs = Get-TeamcityBuildConfigs | where { $ArchivedProjects -notcontains $_.projectId }  | select id, name
 
     Foreach ($buildConfig in $buildConfigs)
     {
