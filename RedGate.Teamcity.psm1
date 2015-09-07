@@ -34,6 +34,7 @@ Export-ModuleMember `
         Get-TeamcityHangingBuilds,
 		    Get-TeamcitySlowestBuilds,
         Get-TeamcityMachinesAndAgents,
+        Get-TeamcityProjects,
         Get-TeamcityVcsRoot,
         Get-TeamcityVcsRoots,
         Remove-TeamcityBuild,
