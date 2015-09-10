@@ -2,6 +2,7 @@ function Get-TeamcityBuildConfigsWithRequirement
 {
   [CmdletBinding()]
 	param(
+    [Parameter(Mandatory=$true)]
     [string] $Name,
     [string] $Value
 	)
@@ -15,7 +16,7 @@ does-not-contain, exists, equals, starts-with, contains, does-not-equal, matches
 
     $interestingRequirementTypes = @('equals', 'starts-with', 'contains', 'matches', 'exists', 'any')
 
-    $buildConfigs = Get-TeamcityBuildConfigs | select id, name
+    $buildConfigs = @(Get-TeamcityBuildConfigs | select id, name, weburl)
 
     Foreach ($buildConfig in $buildConfigs)
     {
@@ -24,18 +25,22 @@ does-not-contain, exists, equals, starts-with, contains, does-not-equal, matches
           Get-TeamcityBuildConfigAgentRequirements |
           where { $interestingRequirementTypes -contains $_.type -and $_.id -eq $Name }
 
-        $computerNames = @($requirements.properties.property |
-                              where name -eq 'property-value' |
-                              select -ExpandProperty value |
-                              where { !$Value -or $_ -like $Value } )
+        if( $Value ) {
+          # Additional filtering if $Value was passed in
+          $requirements = @($requirements.properties.property |
+            where name -eq 'property-value' |
+            select -ExpandProperty value |
+            where { $_ -like $Value } )
+        }
 
-        if($computerNames) {
-          # This build config is linked to a specific (set of) agent(s)
+        if($requirements) {
+          # This build config has the requirement we are looking for
           # Output it.
           [pscustomobject] @{
             Id = $buildConfig.id
             Name = $buildConfig.name
-            AgentNames = $computerNames
+            Link = $buildConfig.weburl
+            Requirements = $requirements
           }
 
         }
