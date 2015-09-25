@@ -2,9 +2,10 @@ function Get-TeamcityMachinesAndAgents
 {
 	[CmdletBinding()]
 	param(
+		[string] $AgentNamePattern = '*'
 	)
 
-	$agents = Get-TeamcityBuildAgents
+	$agents = Get-TeamcityBuildAgents -NamePattern $AgentNamePattern
 
 	$i = 0
 	$agents | ForEach {
