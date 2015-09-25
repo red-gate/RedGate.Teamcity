@@ -31,6 +31,7 @@ Export-ModuleMember `
         Get-TeamcityBuildConfigAgentRequirements,
         Get-TeamcityBuildConfigsLinkedToSpecificAgent,
         Get-TeamcityBuildConfigsWithRequirement,
+        Get-TeamcityBuilds,
         Get-TeamcityHangingBuilds,
 		    Get-TeamcitySlowestBuilds,
         Get-TeamcityMachinesAndAgents,
