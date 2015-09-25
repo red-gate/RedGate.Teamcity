@@ -4,11 +4,11 @@ function Get-TeamcityMachinesAndAgents
 	param(
 	)
 
-	$agents = Get-TeamcityBuildAgents -Credential $Credential
+	$agents = Get-TeamcityBuildAgents
 
 	$i = 0
 	$agents | ForEach {
-		
+
 		$i++
 		$local:ProgressPreference = 'Continue'
 		Write-Progress -Activity "Querying Teamcity..." -PercentComplete ($i / $agents.count * 100)
