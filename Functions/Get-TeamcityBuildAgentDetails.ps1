@@ -3,7 +3,7 @@ function Get-TeamcityBuildAgentDetails
 	[CmdletBinding()]
     param(
         [Parameter(ValueFromPipelineByPropertyName=$true)]
-        [string] $id
+        [string] $Id
     )
 
 		process {

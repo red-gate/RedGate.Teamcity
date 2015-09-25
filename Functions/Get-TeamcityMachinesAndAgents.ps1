@@ -5,7 +5,7 @@ function Get-TeamcityMachinesAndAgents
 		[string] $AgentNamePattern = '*'
 	)
 
-	$agents = Get-TeamcityBuildAgents -NamePattern $AgentNamePattern
+	$agents = @(Get-TeamcityBuildAgents -NamePattern $AgentNamePattern)
 
 	$i = 0
 	$agents | ForEach {
@@ -20,6 +20,7 @@ function Get-TeamcityMachinesAndAgents
 		$pool = $agentDetails.pool.name
 
 		[PsCustomObject] @{
+			Id = $agentDetails.id
 			Name = $agentDetails.name.ToUpper()
 			Machine = $machineName
 			Pool = $pool.ToUpper()
