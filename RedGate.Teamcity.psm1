@@ -16,7 +16,13 @@ If you want to skip this prompt, set the environment variable before importing t
 }
 
 $TeamcityServer = $Env:TeamcityServer
-$Credential = Get-Credential $env:username -Message "Enter your Credential to access $TeamcityServer"
+
+if($global:TeamcityCredentials) {
+    $Credential = $global:TeamcityCredentials
+} else {
+    $Credential = Get-Credential $env:username -Message "Enter your Credential to access $TeamcityServer"
+}
+
 
 Export-ModuleMember `
     -Function `
