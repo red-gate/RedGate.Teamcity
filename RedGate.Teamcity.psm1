@@ -19,7 +19,8 @@ $TeamcityServer = $Env:TeamcityServer
 $Credential = Get-Credential $env:username -Message "Enter your Credential to access $TeamcityServer"
 
 Export-ModuleMember `
-	-Function `
+    -Function `
+        Get-TeamcityArchivedBuildConfigs,
         Get-TeamcityBuildAgentDetails,
         Get-TeamcityBuildAgents,
         Get-TeamcityBuildAgentService,
@@ -34,7 +35,7 @@ Export-ModuleMember `
         Get-TeamcityBuildDetails,
         Get-TeamcityBuilds,
         Get-TeamcityHangingBuilds,
-		    Get-TeamcitySlowestBuilds,
+        Get-TeamcitySlowestBuilds,
         Get-TeamcityMachinesAndAgents,
         Get-TeamcityProjects,
         Get-TeamcityVcsRoot,
