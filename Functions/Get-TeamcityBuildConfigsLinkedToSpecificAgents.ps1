@@ -7,10 +7,7 @@ function Get-TeamcityBuildConfigsLinkedToSpecificAgent
 	)
 
   begin {
-    $ArchivedProjects = @(Get-TeamcityProjects |
-      where archived -eq 'true' |
-      select -ExpandProperty id
-    )
+    $ArchivedProjects = @(Get-TeamcityProjects -Archived 'true' | select -ExpandProperty id)
   }
 
 <#
