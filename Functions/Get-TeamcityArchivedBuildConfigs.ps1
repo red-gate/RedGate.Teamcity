@@ -9,7 +9,7 @@ function Get-TeamcityArchivedBuildConfigs {
     param()
 
     Get-TeamcityProjects -Archived 'true' | ForEach {
-        Get-TeamcityBuildConfigs -Locator "?project=$($_.id)"
+        Get-TeamcityBuildConfigs -parentProjectId $_.id
     }
 
 }
