@@ -41,5 +41,6 @@ Export-ModuleMember `
         Get-TeamcityVcsRoot,
         Get-TeamcityVcsRoots,
         Remove-TeamcityBuild,
+        Remove-TeamcityArtifactsOfBuildConfig,
         Get-TeamcityVcsRootsPerVcsType,
         Set-TeamcityVcsRootProperty
