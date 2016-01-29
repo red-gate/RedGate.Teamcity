@@ -21,7 +21,7 @@ function Get-TeamcityBuildAgentDetails
 				Ip = $agentData.ip
 				Properties = $agentData.properties.property
 				Pool = $agentData.pool
-				Hostname = [System.Net.Dns]::gethostentry($agentData.ip).hostname
+				Hostname = try { [System.Net.Dns]::gethostentry($agentData.ip).hostname } catch { $agentData.ip }
 			}
 
 		}
