@@ -1,10 +1,23 @@
+<#
+.SYNOPSIS
+Get a list of Teamcity build configs matching a specific 'agent requirement'
+.EXAMPLE
+Get-TeamcityBuildConfigsWithRequirement -Name env.ComputerName -Value 'old-computer-name'
+Find all the build configs that are set to only run on a machine called 'old-computer-name'
+#>
 function Get-TeamcityBuildConfigsWithRequirement
 {
   [CmdletBinding()]
 	param(
-    [Parameter(Mandatory=$true)]
-    [string] $Name,
-    [string] $Value
+        # The name of the agent requirement.
+        # examples are: 'env.Computername', 'MSBuildTools4.0_x86_Path'
+        [Parameter(Mandatory=$true)]
+        [string] $Name,
+        # The value of the agent requirement condition. (can be empty. In that case, the value is not checked)
+        # Can contain wildcards (*)
+        [string] $Value,
+        # If specified, also return build configs that belong to archived projects.
+        [switch] $IncludeArchivedProjects
 	)
 
 <#
@@ -16,7 +29,13 @@ does-not-contain, exists, equals, starts-with, contains, does-not-equal, matches
 
     $interestingRequirementTypes = @('equals', 'starts-with', 'contains', 'matches', 'exists', 'any')
 
-    $buildConfigs = @(Get-TeamcityBuildConfigs | select id, name, weburl)
+    if($IncludeArchivedProjects.IsPresent) {
+        $archivedProjects = @()
+    } else {
+        $archivedProjects = @(Get-TeamcityProjects -Archived 'true' | Select -ExpandProperty Id)
+    }
+
+    $buildConfigs = @(Get-TeamcityBuildConfigs | where { $archivedProjects -notcontains $_.projectid } | select id, name, weburl)
 
     Foreach ($buildConfig in $buildConfigs)
     {
