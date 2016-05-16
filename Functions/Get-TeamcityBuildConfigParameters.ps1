@@ -8,7 +8,7 @@ function Get-TeamcityBuildConfigParameters
 
 	process {
 
-			([xml](Invoke-WebRequest "$TeamcityServer/httpAuth/app/rest/buildTypes/id:$Id/parameters" -Credential $Credential).Content).properties.property
+			([xml](Invoke-WebRequest "$TeamcityServer/httpAuth/app/rest/buildTypes/id:$Id/parameters" -Credential $Credential -UseBasicParsing).Content).properties.property
 
 	}
 

@@ -5,9 +5,9 @@ function Get-TeamcityVcsRoot
         [Parameter(Mandatory=$true)]
         [string] $Id
     )
-    
-    
-    $result = ([xml] (Invoke-WebRequest "$TeamcityServer/httpAuth/app/rest/vcs-roots/id:$Id" -Credential $Credential).Content).'vcs-root' 
+
+
+    $result = ([xml] (Invoke-WebRequest "$TeamcityServer/httpAuth/app/rest/vcs-roots/id:$Id" -Credential $Credential -UseBasicParsing).Content).'vcs-root' 
 
     $vcsRoot = [pscustomobject] @{
         Id = $result.id
@@ -20,7 +20,7 @@ function Get-TeamcityVcsRoot
         }
 
         Properties = @(
-                $result.properties.property | ForEach { 
+                $result.properties.property | ForEach {
                     [pscustomobject] @{
                         Name = $_.name
                         Value = $_.value

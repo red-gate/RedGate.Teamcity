@@ -16,7 +16,7 @@ function Get-TeamcityBuildConfigs
         $Url = "$TeamcityServer/httpAuth/app/rest/buildTypes/"
     }
 
-    ([xml](Invoke-WebRequest $Url -Credential $Credential).Content).buildTypes.buildType |
+    ([xml](Invoke-WebRequest $Url -Credential $Credential -UseBasicParsing).Content).buildTypes.buildType |
         Select Id,
             Name,
             Paused,

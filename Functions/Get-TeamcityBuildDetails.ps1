@@ -8,7 +8,7 @@ function Get-TeamcityBuildDetails
 
 	process {
 
-		([xml](Invoke-WebRequest "$TeamcityServer/httpAuth/app/rest/builds/id:$Id" -Credential $Credential).Content).build
+		([xml](Invoke-WebRequest "$TeamcityServer/httpAuth/app/rest/builds/id:$Id" -Credential $Credential -UseBasicParsing).Content).build
 
 	}
 

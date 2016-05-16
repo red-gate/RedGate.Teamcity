@@ -13,7 +13,7 @@ function Get-TeamcityProjects
         [string] $Archived = $null
     )
 
-    $projects = ([xml](Invoke-WebRequest "$TeamcityServer/httpAuth/app/rest/projects" -Credential $Credential).Content).projects.project
+    $projects = ([xml](Invoke-WebRequest "$TeamcityServer/httpAuth/app/rest/projects" -Credential $Credential -UseBasicParsing).Content).projects.project
 
     if($Archived) {
         $projects | where archived -eq $Archived

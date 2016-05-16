@@ -8,8 +8,8 @@ function Get-TeamcityBuildConfig
 
 	process {
 
-			([xml](Invoke-WebRequest "$TeamcityServer/httpAuth/app/rest/buildTypes/id:$Id" -Credential $Credential).Content).buildType
+			([xml](Invoke-WebRequest "$TeamcityServer/httpAuth/app/rest/buildTypes/id:$Id" -Credential $Credential -UseBasicParsing).Content).buildType
 
 	}
-	
+
 }

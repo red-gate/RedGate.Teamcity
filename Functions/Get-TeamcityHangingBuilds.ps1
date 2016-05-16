@@ -4,7 +4,7 @@ function Get-TeamcityHangingBuilds
 	param()
 
 
-	$result = Invoke-WebRequest "$TeamcityServer/httpAuth/app/rest/builds/?locator=running:true" -Credential $Credential -Verbose:$false
+	$result = Invoke-WebRequest "$TeamcityServer/httpAuth/app/rest/builds/?locator=running:true" -Credential $Credential -UseBasicParsing -Verbose:$false
 	$builds = ([xml] $result.Content).builds.build | Select id, buildTypeId, status
 
 	$hangingBuilds = @()
@@ -12,7 +12,7 @@ function Get-TeamcityHangingBuilds
 
 	$builds | ForEach {
 
-		$runningInfo = ([xml](Invoke-WebRequest "$TeamcityServer/httpAuth/app/rest/builds/id:$($_.Id)" -Credential $Credential -Verbose:$false).Content).build.'running-info' |
+		$runningInfo = ([xml](Invoke-WebRequest "$TeamcityServer/httpAuth/app/rest/builds/id:$($_.Id)" -Credential $Credential -UseBasicParsing -Verbose:$false).Content).build.'running-info' |
 			Select elapsedSeconds, estimatedTotalSeconds, probablyHanging
 
 		if( $runningInfo.probablyHanging -eq 'true') {

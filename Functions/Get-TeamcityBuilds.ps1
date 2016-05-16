@@ -10,6 +10,6 @@ function Get-TeamcityBuilds
 			$locator = "?locator=running:true"
 	}
 
-	([xml](Invoke-WebRequest "$TeamcityServer/httpAuth/app/rest/builds/$locator" -Credential $Credential).Content).builds.build
+	([xml](Invoke-WebRequest "$TeamcityServer/httpAuth/app/rest/builds/$locator" -Credential $Credential -UseBasicParsing).Content).builds.build
 
 }

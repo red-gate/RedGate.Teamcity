@@ -30,7 +30,7 @@ function Get-TeamcityBuildConfigSetting
 
 	process {
 
-			(Invoke-WebRequest "$TeamcityServer/httpAuth/app/rest/buildTypes/id:$Id/settings/$SettingName" -Credential $Credential).Content
+			(Invoke-WebRequest "$TeamcityServer/httpAuth/app/rest/buildTypes/id:$Id/settings/$SettingName" -Credential $Credential -UseBasicParsing).Content
 
 	}
 

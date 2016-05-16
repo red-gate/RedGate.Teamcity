@@ -8,7 +8,7 @@ function Get-TeamcityBuildAgentDetails
 
 		process {
 
-			$agentData = ([xml](Invoke-WebRequest "$TeamcityServer/httpAuth/app/rest/agents/id:$Id" -Credential $Credential).Content).agent
+			$agentData = ([xml](Invoke-WebRequest "$TeamcityServer/httpAuth/app/rest/agents/id:$Id" -Credential $Credential -UseBasicParsing).Content).agent
 
 			[pscustomobject] @{
 				Id = $agentData.id

@@ -6,7 +6,7 @@ function Get-TeamcityBuildAgents
 		[string] $NamePattern
 	)
 
-  $allAgents = ([xml](Invoke-WebRequest "$TeamcityServer/httpAuth/app/rest/agents" -Credential $Credential).Content).agents.agent |
+  $allAgents = ([xml](Invoke-WebRequest "$TeamcityServer/httpAuth/app/rest/agents" -Credential $Credential -UseBasicParsing).Content).agents.agent |
 			select id, name, href
 
 	if( $NamePattern ) {
