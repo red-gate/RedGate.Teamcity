@@ -26,6 +26,8 @@ if($global:TeamcityCredentials) {
 
 Export-ModuleMember `
     -Function `
+        Enable-TeamcityAgent,
+        Get-TeamcityAgentPools,
         Get-TeamcityArchivedBuildConfigs,
         Get-TeamcityBuildAgentDetails,
         Get-TeamcityBuildAgents,
