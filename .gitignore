@@ -67,3 +67,5 @@ _TeamCity*
 _NCrunch_*
 .*crunch*.local.xml
 
+*.exe
+*.nupkg
