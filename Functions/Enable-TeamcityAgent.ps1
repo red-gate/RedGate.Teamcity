@@ -44,6 +44,7 @@ function Enable-TeamcityAgent {
             -Credential $Credential `
             -UseBasicParsing `
             -Method Post `
+            -ContentType application/xml `
             -Body "<agent id='$($agent.id)' />" -verbose:$false
     } else {
         Write-Verbose "Agent $AgentName already belongs to pool '$PoolName'"
