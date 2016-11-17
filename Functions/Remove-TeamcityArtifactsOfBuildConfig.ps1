@@ -39,13 +39,9 @@ Function Remove-TeamcityArtifactsOfBuildConfig
         if(!$ProjectId) { throw 'Missing ProjectId'}
         if(!$Name) { throw 'Missing Name'}
 
-        Join-Path $TeamcityArtifactDirectory "$ProjectId\$Name" |
-            Resolve-Path -ErrorAction SilentlyContinue |
+        Join-Path $TeamcityArtifactDirectory ("$ProjectId\$Name" -replace '[:\/?<>*"|]', '_') |
+            Resolve-Path -ErrorAction Continue |
             Get-ChildItem |
             Remove-Item -Force -Recurse -Verbose
-
-    }
-    End
-    {
     }
 }
