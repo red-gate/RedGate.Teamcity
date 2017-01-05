@@ -3,12 +3,12 @@ function Get-TeamcityBuildAgentService
 	[CmdletBinding()]
     param(
         [Parameter(ValueFromPipelineByPropertyName=$true)]
-        [string] $Id
+        [int] $Id
     )
 
 		process {
 
-			$agent = Get-TeamcityBuildAgentDetails $Id
+			$agent = Get-TeamcityBuildAgentDetails -Id $Id
 
 			if( $agent ) {
 				# grab the agent letter from its name

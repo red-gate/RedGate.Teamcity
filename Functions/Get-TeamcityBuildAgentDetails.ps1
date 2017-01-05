@@ -1,29 +1,37 @@
 function Get-TeamcityBuildAgentDetails
 {
-	[CmdletBinding()]
+    [CmdletBinding(DefaultParametersetName='ById')]
     param(
-        [Parameter(ValueFromPipelineByPropertyName=$true)]
-        [string] $Id
+        [Parameter(ValueFromPipelineByPropertyName=$true, ParameterSetName='ById')]
+        [int] $Id,
+
+        [Parameter(ValueFromPipelineByPropertyName=$true, ParameterSetName='ByName')]
+        [string] $Name
     )
 
-		process {
+    process {
 
-			$agentData = ([xml](Invoke-WebRequest "$TeamcityServer/httpAuth/app/rest/agents/id:$Id" -Credential $Credential -UseBasicParsing).Content).agent
+        $locator = switch($PsCmdlet.ParameterSetName) {
+            'ById' { "id:$Id" }
+            'ByName' { "name:$Name" }
+        }
 
-			[pscustomobject] @{
-				Id = $agentData.id
-				Name = $agentData.name
-				Typeid = $agentData.typeid
-				Connected = $agentData.connected
-				Enabled = $agentData.enabled
-				Authorized = $agentData.authorized
-				Uptodate = $agentData.uptodate
-				Ip = $agentData.ip
-				Properties = $agentData.properties.property
-				Pool = $agentData.pool
-				Hostname = try { [System.Net.Dns]::gethostentry($agentData.ip).hostname } catch { $agentData.ip }
-			}
+        $agentData = ([xml](Invoke-WebRequest "$TeamcityServer/httpAuth/app/rest/agents/$locator" -Credential $Credential -UseBasicParsing).Content).agent
 
-		}
+        [pscustomobject] @{
+            Id = $agentData.id
+            Name = $agentData.name
+            Typeid = $agentData.typeid
+            Connected = $agentData.connected
+            Enabled = $agentData.enabled
+            Authorized = $agentData.authorized
+            Uptodate = $agentData.uptodate
+            Ip = $agentData.ip
+            Properties = $agentData.properties.property
+            Pool = $agentData.pool
+            Hostname = try { [System.Net.Dns]::gethostentry($agentData.ip).hostname } catch { $agentData.ip }
+        }
+
+    }
 
 }
