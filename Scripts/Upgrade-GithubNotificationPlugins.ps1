@@ -1,6 +1,6 @@
 [Cmdletbinding()]
 param(
-    [string] $BuildType,
+    [string] $BuildTypeId,
     [string] $ApiToken
 )
 
@@ -10,18 +10,25 @@ $ErrorActionPreference = 'Stop'
 $VerbosePreference = 'Continue'
 
 
-$features = (Get-TeamcityBuildConfig  $BuildType).features.feature
-$toRemove = $features | where type -eq 'teamcity.github.status' | select -first 1
+$buildConfig = Get-TeamcityBuildConfig  $BuildTypeId
+
+if($buildConfig.'vcs-root-entries'.count -ne '1') {
+    Write-Warning "More than 1 VCS root for build config $BuildTypeID. Cannot use this script"
+    return
+}
+
+$VcsRootId = $buildConfig.'vcs-root-entries'.'vcs-root-entry'.'vcs-root'.id
+$toRemove = $buildConfig.features.feature | where type -eq 'teamcity.github.status' | select -first 1
 
 if($toRemove) {
 
-    if(!($features | where type -eq 'commit-status-publisher')) {
+    if(!($buildConfig.features.feature | where type -eq 'commit-status-publisher')) {
         # Add the new commit-status-publisher build feature
-        New-TeamcityGithubBuildStatusFeature -BuildTypeId $BuildType -Token $ApiToken -verbose
+        New-TeamcityGithubBuildStatusFeature -BuildTypeId $BuildTypeId -Token $ApiToken -VcsRootId $VcsRootId -verbose
     }
 
     # Remove the old notification feature
-    Remove-TeamcityBuildFeature -BuildTypeId $BuildType -FeatureId $toRemove.id -verbose
+    Remove-TeamcityBuildFeature -BuildTypeId $BuildTypeId -FeatureId $toRemove.id -verbose
 } else {
-    Write-Verbose "Build $BuildType does not use teamcity.github.status features"
+    Write-Verbose "Build $BuildTypeId does not use teamcity.github.status features"
 }

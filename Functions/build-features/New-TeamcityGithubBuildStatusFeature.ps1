@@ -1,12 +1,6 @@
 <#
 .SYNOPSIS
     Add a new Github 'Commit status publisher' build feature to an existing build configuration
-
-.OUTPUTS
-
-
-.EXAMPLE
-
 #>
 Function New-TeamcityGithubBuildStatusFeature
 {
@@ -18,7 +12,10 @@ Function New-TeamcityGithubBuildStatusFeature
         [string] $BuildTypeId,
 
         # GitHub personal access token
-        [string] $Token
+        [string] $Token,
+
+        # The VCS root to use to get the github repo to notify
+        [string] $VcsRootId
     )
     Begin
     {
@@ -26,6 +23,9 @@ Function New-TeamcityGithubBuildStatusFeature
     }
     Process
     {
+
+
+
         $body = @"
 <feature type="commit-status-publisher">
     <properties>
@@ -33,6 +33,7 @@ Function New-TeamcityGithubBuildStatusFeature
         <property name="github_host" value="https://api.github.com"/>
         <property name="publisherId" value="githubStatusPublisher"/>
         <property name="secure:github_access_token" value="$Token" />
+        <property name="vcsRootId" value="$VcsRootId"/>
     </properties>
 </feature>
 "@
