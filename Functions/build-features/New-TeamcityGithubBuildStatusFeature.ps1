@@ -17,15 +17,8 @@ Function New-TeamcityGithubBuildStatusFeature
         # The VCS root to use to get the github repo to notify
         [string] $VcsRootId
     )
-    Begin
-    {
-        # code
-    }
     Process
     {
-
-
-
         $body = @"
 <feature type="commit-status-publisher">
     <properties>
@@ -44,8 +37,5 @@ Function New-TeamcityGithubBuildStatusFeature
             -Method Post `
             -Body $body `
             -ContentType 'application/xml'
-    }
-    End
-    {
     }
 }
