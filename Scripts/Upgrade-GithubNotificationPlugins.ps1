@@ -10,7 +10,7 @@ $ErrorActionPreference = 'Stop'
 $VerbosePreference = 'Continue'
 
 
-$buildConfig = Get-TeamcityBuildConfig  $BuildTypeId
+$buildConfig = Get-TeamcityBuildConfig $BuildTypeId
 
 if($buildConfig.'vcs-root-entries'.count -ne '1') {
     Write-Warning "No VCS root (or more than 1 VCS root) for build config $BuildTypeID. Cannot use this script... Sorry!"
@@ -18,7 +18,7 @@ if($buildConfig.'vcs-root-entries'.count -ne '1') {
 }
 
 $VcsRootId = $buildConfig.'vcs-root-entries'.'vcs-root-entry'.'vcs-root'.id
-$toRemove = $buildConfig.features.feature | where type -eq 'teamcity.github.status' | select -first 1
+$toRemove = $buildConfig.features.feature | where {$_.type -eq 'teamcity.github.status' -and $_.inherited -ne 'true' } | select -first 1
 
 if($toRemove) {
 
