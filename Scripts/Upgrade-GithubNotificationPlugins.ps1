@@ -13,7 +13,7 @@ $VerbosePreference = 'Continue'
 $buildConfig = Get-TeamcityBuildConfig  $BuildTypeId
 
 if($buildConfig.'vcs-root-entries'.count -ne '1') {
-    Write-Warning "More than 1 VCS root for build config $BuildTypeID. Cannot use this script"
+    Write-Warning "No VCS root (or more than 1 VCS root) for build config $BuildTypeID. Cannot use this script... Sorry!"
     return
 }
 
