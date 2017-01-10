@@ -7,21 +7,32 @@ function Get-TeamcityBuildConfigs
     [CmdletBinding()]
     param(
         # Optional, the id of the project that the returned build configs belong to
-        [string] $ParentProjectId
+        [string] $ParentProjectId,
+
+        # Optional, Include build configuration templates
+        [switch] $IncludeTemplates
     )
 
     if($ParentProjectId) {
-        $Url = "$TeamcityServer/httpAuth/app/rest/projects/id:$ParentProjectId/buildTypes/"
+        $Urls = @("$TeamcityServer/httpAuth/app/rest/projects/id:$ParentProjectId/buildTypes/")
+        if($IncludeTemplates.IsPresent) {
+            $Urls += "$TeamcityServer/httpAuth/app/rest/projects/id:$ParentProjectId/templates/"
+        }
     } else {
-        $Url = "$TeamcityServer/httpAuth/app/rest/buildTypes/"
+        $Urls = @("$TeamcityServer/httpAuth/app/rest/buildTypes/")
+        if($IncludeTemplates.IsPresent) {
+            $Urls += "$TeamcityServer/httpAuth/app/rest/buildTypes?locator=templateFlag:true"
+        }
     }
 
-    ([xml](Invoke-WebRequest $Url -Credential $Credential -UseBasicParsing).Content).buildTypes.buildType |
-        Select Id,
-            Name,
-            Paused,
-            ProjectName,
-            ProjectId,
-            Href,
-            WebUrl
+    $Urls | foreach {
+        ([xml](Invoke-WebRequest $_ -Credential $Credential -UseBasicParsing).Content).buildTypes.buildType |
+            Select Id,
+                Name,
+                Paused,
+                ProjectName,
+                ProjectId,
+                Href,
+                WebUrl
+    }
 }
