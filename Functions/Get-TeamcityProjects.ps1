@@ -16,7 +16,11 @@ function Get-TeamcityProjects
     $projects = ([xml](Invoke-WebRequest "$TeamcityServer/httpAuth/app/rest/projects" -Credential $Credential -UseBasicParsing).Content).projects.project
 
     if($Archived) {
-        $projects | where archived -eq $Archived
+        if( $Archived -eq 'true') {
+            $projects | where archived -eq $Archived
+        } else {
+            $projects | where archived -eq $null
+        }
     } else {
         $projects
     }
