@@ -48,6 +48,8 @@ Export-ModuleMember `
         Get-TeamcityProjects,
         Get-TeamcityVcsRoot,
         Get-TeamcityVcsRoots,
+        New-TeamcityGithubBuildStatusFeature,
+        Remove-TeamcityBuildFeature,
         Remove-TeamcityBuild,
         Remove-TeamcityArtifactsOfBuildConfig,
         Get-TeamcityVcsRootsPerVcsType,
