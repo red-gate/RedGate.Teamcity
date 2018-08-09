@@ -49,6 +49,7 @@ Export-ModuleMember `
         Get-TeamcityVcsRoot,
         Get-TeamcityVcsRoots,
         New-TeamcityGithubBuildStatusFeature,
+        Remove-TeamcityAgent,
         Remove-TeamcityBuildFeature,
         Remove-TeamcityBuild,
         Remove-TeamcityArtifactsOfBuildConfig,
