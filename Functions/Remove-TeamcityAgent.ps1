@@ -10,9 +10,11 @@ function Remove-TeamcityAgent {
         [Parameter(Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [string] $Name
     )
-    Invoke-RestMethod `
-        -Uri "$TeamcityServer/httpAuth/app/rest/agents/name:$Name" `
-        -Method Delete `
-        -UseBasicParsing `
-        -Credential $Credential
+    process {
+        Invoke-RestMethod `
+            -Uri "$TeamcityServer/httpAuth/app/rest/agents/name:$Name" `
+            -Method Delete `
+            -UseBasicParsing `
+            -Credential $Credential
+    }
 }
