@@ -42,7 +42,8 @@ does-not-contain, exists, equals, starts-with, contains, does-not-equal, matches
         # find the agent requirements for this build config
         $requirements = $buildConfig |
           Get-TeamcityBuildConfigAgentRequirements |
-          where { $interestingRequirementTypes -contains $_.type -and $_.id -like $Name }
+          where { $interestingRequirementTypes -contains $_.type  } |
+          where { $_.properties.property | where { $_.name -eq 'property-name' -and $_.value -like $Name } }
 
         if( $Value ) {
           # Additional filtering if $Value was passed in
