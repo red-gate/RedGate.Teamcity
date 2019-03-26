@@ -1,17 +1,18 @@
 function Remove-TeamcityBuild
 {
-	[CmdletBinding()]
-	param(
-		[Parameter(Mandatory=$true)]
-		[string] $Id,
+    [CmdletBinding()]
+    param(
+        [ValidateNotNullOrEmpty()]
+        [Parameter(Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
+        [string] $Id,
 
-		[string] $Comment = 'Canceled using Teamcity REST API, RedGate.Teamcity/Remove-TeamcityBuild'
-	)
+        [string] $Comment = 'Canceled using Teamcity REST API, RedGate.Teamcity/Remove-TeamcityBuild'
+    )
+    process {
+        $request = "<buildCancelRequest comment='$Comment' readdIntoQueue='true' />"
 
+        $result = Invoke-WebRequest "$TeamcityServer/httpAuth/app/rest/builds/id:$Id" -Credential $Credential -Method Post -Body $request -ContentType 'application/xml' -UseBasicParsing
 
-	$request = "<buildCancelRequest comment='$Comment' readdIntoQueue='true' />"
-
-	$result = Invoke-WebRequest "$TeamcityServer/httpAuth/app/rest/builds/id:$Id" -Credential $Credential -Method Post -Body $request -ContentType 'application/xml'
-
-	"$($result.StatusCode) - $($result.StatusDescription)"
+        "$($result.StatusCode) - $($result.StatusDescription)"
+    }
 }

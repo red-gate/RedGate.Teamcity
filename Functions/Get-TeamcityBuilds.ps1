@@ -1,15 +1,17 @@
 function Get-TeamcityBuilds
 {
-	[CmdletBinding()]
-  param(
-		[switch] $Running
-	)
+    [CmdletBinding()]
+    param(
+        # Use 'running:true' to get running builds
+        # Use 'agentName:agent1' to get builds running on agent1
+        [string] $Locator = ''
+    )
 
-	$locator = ''
-	if( $Running.IsPresent ) {
-			$locator = "?locator=running:true"
-	}
+    if($Locator) {
+        $Locator = "?locator=${Locator}"
+    }
 
-	([xml](Invoke-WebRequest "$TeamcityServer/httpAuth/app/rest/builds/$locator" -Credential $Credential -UseBasicParsing).Content).builds.build
+    (Invoke-RestMethod "$TeamcityServer/httpAuth/app/rest/builds/$Locator" -Credential $Credential -UseBasicParsing).builds.build |
+        select *
 
 }
