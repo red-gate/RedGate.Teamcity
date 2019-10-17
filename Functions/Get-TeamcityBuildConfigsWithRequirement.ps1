@@ -27,7 +27,7 @@ does-not-contain, exists, equals, starts-with, contains, does-not-equal, matches
 
   process {
 
-    $interestingRequirementTypes = @('equals', 'starts-with', 'contains', 'matches', 'exists', 'any')
+    $interestingRequirementTypes = @('equals', 'starts-with', 'ends-with', 'contains', 'matches', 'exists', 'any')
 
     if($IncludeArchivedProjects.IsPresent) {
         $archivedProjects = @()
