@@ -16,9 +16,9 @@ function Remove-TeamcityAgent {
         Get-TeamcityBuilds -Locator "running:true,agentName:${Name}" | Remove-TeamcityBuild -Comment "Agent ${Name} is being deleted. Canceling and readding build to queue."
 
         Invoke-RestMethod `
-            -Uri "$TeamcityServer/httpAuth/app/rest/agents/name:$Name" `
+            -Uri "$TeamcityServer/app/rest/agents/name:$Name" `
             -Method Delete `
             -UseBasicParsing `
-            -Credential $Credential
+            -Headers $Headers
     }
 }

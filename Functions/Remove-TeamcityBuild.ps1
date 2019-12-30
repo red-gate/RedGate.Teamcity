@@ -11,7 +11,7 @@ function Remove-TeamcityBuild
     process {
         $request = "<buildCancelRequest comment='$Comment' readdIntoQueue='true' />"
 
-        $result = Invoke-WebRequest "$TeamcityServer/httpAuth/app/rest/builds/id:$Id" -Credential $Credential -Method Post -Body $request -ContentType 'application/xml' -UseBasicParsing
+        $result = Invoke-WebRequest "$TeamcityServer/app/rest/builds/id:$Id" -Headers $Headers -Method Post -Body $request -ContentType 'application/xml' -UseBasicParsing
 
         "$($result.StatusCode) - $($result.StatusDescription)"
     }

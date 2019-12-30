@@ -14,19 +14,19 @@ function Get-TeamcityBuildConfigs
     )
 
     if($ParentProjectId) {
-        $Urls = @("$TeamcityServer/httpAuth/app/rest/projects/id:$ParentProjectId/buildTypes/")
+        $Urls = @("$TeamcityServer/app/rest/projects/id:$ParentProjectId/buildTypes/")
         if($IncludeTemplates.IsPresent) {
-            $Urls += "$TeamcityServer/httpAuth/app/rest/projects/id:$ParentProjectId/templates/"
+            $Urls += "$TeamcityServer/app/rest/projects/id:$ParentProjectId/templates/"
         }
     } else {
-        $Urls = @("$TeamcityServer/httpAuth/app/rest/buildTypes/")
+        $Urls = @("$TeamcityServer/app/rest/buildTypes/")
         if($IncludeTemplates.IsPresent) {
-            $Urls += "$TeamcityServer/httpAuth/app/rest/buildTypes?locator=templateFlag:true"
+            $Urls += "$TeamcityServer/app/rest/buildTypes?locator=templateFlag:true"
         }
     }
 
     $Urls | foreach {
-        ([xml](Invoke-WebRequest $_ -Credential $Credential -UseBasicParsing).Content).buildTypes.buildType |
+        (Invoke-RestMethod $_ -Headers $Headers -UseBasicParsing).buildTypes.buildType |
             Select Id,
                 Name,
                 Paused,

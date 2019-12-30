@@ -17,10 +17,14 @@ If you want to skip this prompt, set the environment variable before importing t
 
 $TeamcityServer = $Env:TeamcityServer
 
-if($global:TeamcityCredentials) {
-    $Credential = $global:TeamcityCredentials
+if($global:TeamcityApiToken) {
+    $ApiToken = $global:TeamcityApiToken
 } else {
-    $Credential = Get-Credential $env:username -Message "Enter your Credential to access $TeamcityServer"
+    $ApiToken = Read-Host -Prompt "Enter your Api Token for $TeamcityServer"
+}
+
+$Headers = @{
+    Authorization = "Bearer $ApiToken"
 }
 
 

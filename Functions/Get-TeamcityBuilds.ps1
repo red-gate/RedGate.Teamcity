@@ -11,7 +11,7 @@ function Get-TeamcityBuilds
         $Locator = "?locator=${Locator}"
     }
 
-    (Invoke-RestMethod "$TeamcityServer/httpAuth/app/rest/builds/$Locator" -Credential $Credential -UseBasicParsing).builds.build |
+    (Invoke-RestMethod "$TeamcityServer/app/rest/builds/$Locator" -Headers $Headers -UseBasicParsing).builds.build |
         select *
 
 }

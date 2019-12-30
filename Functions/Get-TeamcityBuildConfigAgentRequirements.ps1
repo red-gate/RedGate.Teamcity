@@ -1,15 +1,15 @@
 function Get-TeamcityBuildConfigAgentRequirements
 {
-	[CmdletBinding()]
+    [CmdletBinding()]
   param(
-		[Parameter(ValueFromPipelineByPropertyName=$true)]
-		[string] $Id
-	)
+        [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)]
+        [string] $Id
+    )
 
-	process {
+    process {
 
-	([xml](Invoke-WebRequest "$TeamcityServer/httpAuth/app/rest/buildTypes/id:$Id/agent-requirements" -Credential $Credential -UseBasicParsing).Content).'agent-requirements'.'agent-requirement'
+    (Invoke-RestMethod "$TeamcityServer/app/rest/buildTypes/id:$Id/agent-requirements" -Headers $Headers -UseBasicParsing).'agent-requirements'.'agent-requirement'
 
-	}
+    }
 
 }

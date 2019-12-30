@@ -2,7 +2,7 @@ function Get-TeamcityBuildConfigsLinkedToSpecificAgent
 {
   [CmdletBinding()]
 	param(
-    [Parameter(ValueFromPipelineByPropertyName=$true)]
+    [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)]
     [string] $Name
 	)
 

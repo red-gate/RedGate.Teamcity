@@ -1,21 +1,21 @@
 function Get-TeamcityBuildAgents
 {
-	[CmdletBinding()]
+    [CmdletBinding()]
   param(
-		# Name / wildcard pattern of the agent name
-		[string] $NamePattern,
+        # Name / wildcard pattern of the agent name
+        [string] $NamePattern,
 
-		# (Optional) Additional locator. (defaults to 'locator=authorized:any')
-		[string] $Locator = 'locator=authorized:any'
-	)
+        # (Optional) Additional locator. (defaults to 'locator=authorized:any')
+        [string] $Locator = 'locator=authorized:any'
+    )
 
-  $allAgents = ([xml](Invoke-WebRequest "$TeamcityServer/httpAuth/app/rest/agents?$Locator" -Credential $Credential -UseBasicParsing).Content).agents.agent |
-			select id, name, href
+  $allAgents = (Invoke-RestMethod "$TeamcityServer/app/rest/agents?$Locator" -Headers $Headers -UseBasicParsing).agents.agent |
+            select id, name, href
 
-	if( $NamePattern ) {
-		$allAgents | where name -like $NamePattern
-	} else {
-		$allAgents
-	}
+    if( $NamePattern ) {
+        $allAgents | where name -like $NamePattern
+    } else {
+        $allAgents
+    }
 
 }
