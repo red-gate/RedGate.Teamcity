@@ -26,32 +26,12 @@ if($global:TeamcityCredentials) {
 
 Export-ModuleMember `
     -Function `
-        Enable-TeamcityAgent,
-        Get-TeamcityAgentPools,
-        Get-TeamcityArchivedBuildConfigs,
-        Get-TeamcityBuildAgentDetails,
         Get-TeamcityBuildAgents,
-        Get-TeamcityBuildAgentService,
-        Get-TeamcityBuildConfig,
-        Get-TeamcityBuildConfigParameters,
-        Get-TeamcityBuildConfigSetting,
-        Get-TeamcityBuildConfigSettings,
         Get-TeamcityBuildConfigs,
         Get-TeamcityBuildConfigAgentRequirements,
         Get-TeamcityBuildConfigsLinkedToSpecificAgent,
         Get-TeamcityBuildConfigsWithRequirement,
-        Get-TeamcityBuildDetails,
         Get-TeamcityBuilds,
-        Get-TeamcityHangingBuilds,
-        Get-TeamcitySlowestBuilds,
-        Get-TeamcityMachinesAndAgents,
         Get-TeamcityProjects,
-        Get-TeamcityVcsRoot,
-        Get-TeamcityVcsRoots,
-        New-TeamcityGithubBuildStatusFeature,
         Remove-TeamcityAgent,
-        Remove-TeamcityBuildFeature,
-        Remove-TeamcityBuild,
-        Remove-TeamcityArtifactsOfBuildConfig,
-        Get-TeamcityVcsRootsPerVcsType,
-        Set-TeamcityVcsRootProperty
+        Remove-TeamcityBuild
